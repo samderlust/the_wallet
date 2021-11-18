@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:the_wallet/model/CardModel.dart';
 import '../model/CardModel.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../resources/db_provider.dart';
 
 class CodeBloc with ChangeNotifier {
   String _code = '';
-  List<CardModel> _codeList = [
-    CardModel(
-        uuid: 'e8611fc0-c76e-11e9-99da-6ba9ad1acbd0',
-        code: 'ABC-abc-1234',
-        title: 'THe first card',
-        description: 'this card is just for testing')
-  ];
+  List<CardModel> _codeList = [];
 
   List<CardModel> _searchList = [];
 
@@ -47,7 +39,7 @@ class CodeBloc with ChangeNotifier {
 
   getAllCard() async {
     _codeList = await DbProvider.db.getAllCard();
-    return _codeList;
+    notifyListeners();
   }
 
   findCard(String name) async {
@@ -67,6 +59,5 @@ class CodeBloc with ChangeNotifier {
   clearWallet() async {
     await DbProvider.db.clearDatabase();
     _codeList = [];
-    
   }
 }

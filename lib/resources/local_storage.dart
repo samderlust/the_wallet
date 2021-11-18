@@ -10,7 +10,6 @@ class LocalStorage {
   SharedPreferences get prefs => _prefs;
 
   LocalStorage._init() {
-    print('init');
     initStore();
   }
 

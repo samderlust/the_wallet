@@ -46,7 +46,6 @@ class _NewCardState extends State<NewCard> {
   }
 
   Future<prefix0.File> _cropImage(prefix0.File imageFile) async {
-    print('incrop');
     prefix0.File croppedFile = await ImageCropper.cropImage(
       sourcePath: imageFile.path,
       ratioX: 16.0,
@@ -233,7 +232,6 @@ class _NewCardState extends State<NewCard> {
                     color: Colors.white,
                     padding: EdgeInsets.all(0),
                     onPressed: () {
-                      print(uuid);
                       final CardModel theCode = CardModel(
                         uuid: uuid,
                         code: widget.code,

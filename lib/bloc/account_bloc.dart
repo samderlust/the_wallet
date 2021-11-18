@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:the_wallet/model/CardModel.dart';
-import 'package:the_wallet/widgets/account_info_modal.dart';
-import '../model/CardModel.dart';
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../resources/db_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,22 +29,15 @@ class AccountBloc with ChangeNotifier {
 
   getTotalCardNo() async {
     var number = await DbProvider.db.countNumberOfCards();
-    // _totalCardsNo = number;
     _totalCardsNo = number[0]['total'];
+    notifyListeners();
   }
 
-  checkIfFistTime(BuildContext context) async {
+  checkIfFistTime() async {
     SharedPreferences store = await SharedPreferences.getInstance();
-    _isFirstTime = store.getBool('isFirstTime') == null;
-    if (_isFirstTime) {
-      showDialog(
-        context: context,
-        builder: (context) => AccountInfoModal(),
-      );
-    }
-    if (userName != '') {
-      firstSetup();
-    }
+    var check = store.getBool('isFirstTime');
+    if (check != null) _isFirstTime = check;
+    return _isFirstTime;
   }
 
   firstSetup() async {

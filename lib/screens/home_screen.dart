@@ -5,14 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:the_wallet/bloc/account_bloc.dart';
 import 'package:the_wallet/screens/home/all_tab.dart';
 import 'package:the_wallet/screens/home/recent_tab.dart';
+import 'package:the_wallet/screens/route_names.dart';
 import 'package:the_wallet/widgets/home_drawer.dart';
-import '../model/CardModel.dart';
 
 import '../bloc/code_bloc.dart';
 import '../bloc/recent_bloc.dart';
 import '../widgets/tag_container.dart';
 import './new_card.dart';
-import './search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -36,8 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _focus.addListener(() {
       if (_focus.hasFocus) {
         _focus.unfocus();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => SeacrchScreen()));
+        Navigator.pushNamed(context, RouteNames.SEARCH);
       }
     });
   }
@@ -51,26 +49,20 @@ class _HomeScreenState extends State<HomeScreen> {
     final RecentBloc recentBloc = Provider.of<RecentBloc>(context);
     final AccountBloc accountBloc = Provider.of<AccountBloc>(context);
 
-    recentBloc.getRecentListFromStorage();
-    accountBloc.getTotalCardNo();
-    accountBloc.getUserName();
-
     List<Widget> tabList = [
       AnimatedOpacity(
         opacity: _selectedIndex == 0 ? 1 : 0,
         duration: Duration(
           milliseconds: 300,
         ),
-        child: RecentTab(
-          recentBloc: recentBloc,
-        ),
+        child: RecentTab(),
       ),
       AnimatedOpacity(
         opacity: _selectedIndex == 1 ? 1 : 0,
         duration: Duration(
           milliseconds: 300,
         ),
-        child: AllTab(codeBloc: codeBloc),
+        child: AllTab(),
       )
     ];
 
@@ -100,10 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context) => NewCard(
                           code: code,
                         )));
-          } catch (e) {
-            print(e);
-            Navigator.pop(context);
-          }
+          } catch (e) {}
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -219,22 +208,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  FutureBuilder(
-                    future: recentBloc.getRecentListFromStorage(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final List<CardModel> theList = snapshot.data;
-                        return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: theList
-                                .map((card) => TagContainer(
-                                      card: card,
-                                    ))
-                                .toList());
-                      } else
-                        return Container();
-                    },
-                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: recentBloc.recentCards
+                          .map((card) => TagContainer(
+                                card: card,
+                              ))
+                          .toList()),
                 ],
               ),
             ),
@@ -267,7 +247,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   _animateToPage(index);
                 },
                 itemBuilder: (context, index) {
-                  // print('home buld $index');
                   return tabList[index];
                 },
               ),

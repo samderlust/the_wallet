@@ -66,7 +66,6 @@ class DbProvider {
     final db = await database;
     var query = db.insert(CARDSTABLE, card.toMap(),
         conflictAlgorithm: ConflictAlgorithm.ignore);
-    print(query);
   }
 
   Future<List<CardModel>> getAllCard() async {

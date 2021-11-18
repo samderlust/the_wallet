@@ -4,6 +4,7 @@ import 'package:the_wallet/bloc/account_bloc.dart';
 import 'package:the_wallet/bloc/code_bloc.dart';
 import 'package:the_wallet/bloc/recent_bloc.dart';
 import 'package:the_wallet/screens/onboarding_screen.dart';
+import 'package:the_wallet/screens/route_names.dart';
 import 'package:the_wallet/widgets/account_info_modal.dart';
 import 'package:the_wallet/widgets/popup_comfirm.dart';
 
@@ -78,10 +79,8 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OnboardingScreen()));
+                      Navigator.pushReplacementNamed(
+                          context, RouteNames.GUIDE_SCREEN);
                     }),
                 Divider(
                   color: Colors.black12,

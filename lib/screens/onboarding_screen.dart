@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:the_wallet/bloc/account_bloc.dart';
 import 'package:the_wallet/screens/home_screen.dart';
 import 'package:the_wallet/screens/onboarding/first_page.dart';
 import 'package:the_wallet/screens/onboarding/second_page.dart';
 import 'package:the_wallet/screens/onboarding/third_page.dart';
+import 'package:the_wallet/screens/route_names.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -45,7 +48,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
     controller.addListener(() async {
       if (bgSliding.status == AnimationStatus.completed) {
-        await Future.delayed(Duration(milliseconds: 100), controller.reverse);
+        try {
+          await Future.delayed(Duration(milliseconds: 100), controller.reverse);
+        } catch (e) {
+          print(e);
+        }
       }
     });
   }
@@ -61,6 +68,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
+    final AccountBloc accountBloc = Provider.of<AccountBloc>(context);
+
     onTap() async {
       controller.forward();
       if (_currentPage < pageList.length - 1) {
@@ -72,9 +82,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         });
       }
       if (_currentPage == pageList.length - 1) {
-        Future.delayed(Duration(milliseconds: 300), () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Future.delayed(Duration(milliseconds: 500), () {
+          Navigator.popAndPushNamed(
+            context, RouteNames.HOME,
+            // MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+          accountBloc.firstSetup();
         });
       }
     }
@@ -110,16 +123,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   setState(() {
                     _currentPage = index;
                   });
-                  // _pageController.animateToPage(
-                  //   index,
-                  //   duration: Duration(milliseconds: 500),
-                  //   curve: Curves.linearToEaseOut,
-                  // );
                 },
                 itemCount: pageList.length,
                 controller: _pageController,
                 itemBuilder: (context, index) {
-                  print('build');
                   return pageList[index];
                 }),
           ),
@@ -130,9 +137,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               padding: const EdgeInsets.all(20.0),
               child: GestureDetector(
                 onTap: () {
-                  print('skip');
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                  Navigator.pushReplacementNamed(context, RouteNames.HOME);
+                  accountBloc.firstSetup();
                 },
                 child: Text(
                   'Skip',

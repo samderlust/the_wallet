@@ -30,13 +30,10 @@ class _CardDetailState extends State<CardDetail> {
 
   @override
   Widget build(BuildContext context) {
-    print('uuid ${widget.cardId}');
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final CodeBloc codeBloc = Provider.of<CodeBloc>(context);
     final RecentBloc recentBloc = Provider.of<RecentBloc>(context);
-
-    // final CardModel theCard = codeBloc.findCardById(widget.cardId);
 
     return FutureBuilder(
       future: codeBloc.findCardById(widget.cardId),
@@ -44,7 +41,6 @@ class _CardDetailState extends State<CardDetail> {
         if (!snapshot.hasData) return Container();
 
         CardModel theCard = snapshot.data;
-        recentBloc.addToRecent(theCard.uuid);
 
         return Scaffold(
           floatingActionButton: SpeedDial(
@@ -183,9 +179,9 @@ class _CardDetailState extends State<CardDetail> {
                           child: BarCodeImage(
                             data: theCard.code,
                             codeType: BarCodeType.values[theCard.codeFormat],
-                            lineWidth: 2.0,
+                            lineWidth: 1.5,
                             barHeight: 90.0,
-                            // hasText: true,
+                            hasText: true,
                             onError: (error) {
                               print('error = $error');
                             },
@@ -205,7 +201,6 @@ class _CardDetailState extends State<CardDetail> {
                           setState(() {
                             _isRotated = !_isRotated;
                           });
-                          print(_isRotated);
                         },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,

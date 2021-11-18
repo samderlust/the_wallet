@@ -1,5 +1,5 @@
 name: the_wallet
-description: A new Flutter project.
+description: The Wallet that hold membership cards, or barcodes
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 2.0.2+2
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -29,10 +29,18 @@ dependencies:
   path_provider: ^1.2.0
   image_picker: ^0.6.1+4
   image_cropper: ^1.0.2
+  flutter_launcher_icons: ^0.7.3
+  vibration: 1.2.1
+  flutter_riverpod: ^0.12.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/icon/icon.png"
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +54,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/img/key.png
+    - assets/icon/icon.png
   fonts:
     - family: rokkitt
       fonts:

@@ -1,4 +1,4 @@
-package com.example.the_wallet;
+package com.samderlust.the_wallet;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

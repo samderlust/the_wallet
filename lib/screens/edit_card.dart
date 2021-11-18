@@ -151,7 +151,7 @@ class _EditCardState extends State<EditCard> {
                         codeType: BarCodeType.values[_codeFormat == -1
                             ? widget.theCard.codeFormat
                             : _codeFormat],
-                        lineWidth: 2.0,
+                        lineWidth: 1.5,
                         barHeight: 90.0,
                         hasText: true,
                         onError: (error) {
@@ -213,14 +213,14 @@ class _EditCardState extends State<EditCard> {
                         Spacer(),
                         Icon(
                           Icons.cancel,
-                          color: Color(0xff016F65),
+                          color: Colors.red,
                           size: 40,
                         ),
                         SizedBox(width: 20),
                         Text(
                           'Cancel',
                           style: TextStyle(
-                            color: Color(0xff016F65),
+                            color: Colors.red,
                             fontSize: 20,
                             fontFamily: 'rokkitt',
                             fontWeight: FontWeight.w700,

@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:barcode_flutter/barcode_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:the_wallet/bloc/recent_bloc.dart';
 import '../model/CardModel.dart';
 import '../screens/card_detail.dart';
 
 class SingleCard extends StatelessWidget {
-  CardModel theCard;
+  final CardModel theCard;
 
-  SingleCard({this.theCard});
+  const SingleCard({Key key, this.theCard}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final RecentBloc recentBloc = Provider.of<RecentBloc>(context);
     return GestureDetector(
       onTap: () {
+        recentBloc.addToRecent(theCard.uuid);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -37,7 +42,7 @@ class SingleCard extends StatelessWidget {
               child: BarCodeImage(
                 data: theCard.code,
                 codeType: BarCodeType.values[theCard.codeFormat],
-                lineWidth: 2.0,
+                lineWidth: 1.5,
                 barHeight: 85.0,
                 // hasText: true,
                 onError: (error) {
